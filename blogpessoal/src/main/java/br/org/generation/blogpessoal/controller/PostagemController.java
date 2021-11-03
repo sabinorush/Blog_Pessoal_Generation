@@ -28,38 +28,40 @@ public class PostagemController {
 	private PostagemRepository postagemRepository;
 	
 	@GetMapping
-	public ResponseEntity<List<Postagem>> getAll() { // getall() método para trazer todas as postagens.
+	public ResponseEntity<List<Postagem>> getAll() { // getAll() método para trazer todas as postagens.
 		return ResponseEntity.ok(postagemRepository.findAll());
 		// select * from tb_postagens;
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Postagem> getById(@PathVariable long id){	
+	public ResponseEntity<Postagem> getById(@PathVariable long id){	// Metódo para localizar postagem pelo ID.
 		return postagemRepository.findById(id)
-				.map(resposta -> ResponseEntity.ok(resposta))
-				.orElse(ResponseEntity.notFound().build());
+				.map(resposta -> ResponseEntity.ok(resposta)) // Verifica se o ID existe.
+				.orElse(ResponseEntity.notFound().build()); // retorna not found caso o id não exista.
 		// select * from tb_postagens where id = 1;
 	}
 	
 	@GetMapping("/titulo/{titulo}")
-	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo) {
+	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo) { // Método para localizar uma postagem pelo título. Pathvariable recepciona a URI enviada para a aplicação.
 		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
 		// select * from tb_postagens;
 	}
 	
 	@PostMapping
-	public ResponseEntity<Postagem> postPostagem(@RequestBody Postagem postagem) {
+	public ResponseEntity<Postagem> postPostagem(@RequestBody Postagem postagem) { //Método para atualizar uma postagem, requestbody recepciona os objetos/valores enviado para a aplicação.
 		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 	}
 	
 	@PutMapping
-	public ResponseEntity<Postagem> putPostagem(@RequestBody Postagem postagem, Long id) {
+	public ResponseEntity<Postagem> putPostagem(@RequestBody Postagem postagem, Long id) { //Método para atualizar uma postagem
 		return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem)
 				);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deletePostagem(@PathVariable long id) {
-		postagemRepository.deleteById(id);
+	public ResponseEntity<?> deletaPostagem(@PathVariable long id) { // Metódo para deletar uma postagem pelo id.
+		return	postagemRepository.findById(id)
+				.map(exist -> { postagemRepository.deleteById(id); return ResponseEntity.ok().build();}) //Verifica se o ID existe e se existir deleta o mesmo.
+				.orElse( ResponseEntity.notFound().build());
 	}
 	
 	
