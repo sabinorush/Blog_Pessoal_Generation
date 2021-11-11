@@ -1,7 +1,7 @@
 package br.org.generation.blogpessoal.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,7 +60,7 @@ public class PostagemController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletaPostagem(@PathVariable long id) { // Metódo para deletar uma postagem pelo id.
 		return	postagemRepository.findById(id)
-				.map(exist -> { postagemRepository.deleteById(id); return ResponseEntity.ok().build();}) //Verifica se o ID existe e se existir deleta o mesmo.
+				.map(exist -> { postagemRepository.deleteById(id); return ResponseEntity.status(HttpStatus.NO_CONTENT).build();}) //Verifica se o ID existe e se existir deleta o mesmo.
 				.orElse( ResponseEntity.notFound().build());
 	}
 	
