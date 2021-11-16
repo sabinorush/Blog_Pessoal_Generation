@@ -30,14 +30,24 @@ public class Usuario {
 	@NotNull(message = "Usuário é obrigatório")
 	@Email(message = "Usuário deve ser um email válido")
 	private String usuario;
-	
+
 	@NotBlank(message = "Senha é obrigatório")
 	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
 	private String senha;
-	
+
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
+
+	public Usuario(long id, String nome, String usuario, String senha) {
+
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+	}
+
+	public Usuario() {  } //Construtor vazio que vai gerar objetos nulos para fazer testes.
 
 	public long getId() {
 		return id;
@@ -78,6 +88,5 @@ public class Usuario {
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
-	
-	
+
 }
