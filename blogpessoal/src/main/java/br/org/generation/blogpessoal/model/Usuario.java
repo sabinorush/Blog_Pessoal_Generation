@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModelProperty;
 
+
 @Entity
 @Table(name = "tb_usuarios")
 public class Usuario {
