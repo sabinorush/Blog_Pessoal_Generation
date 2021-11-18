@@ -47,7 +47,7 @@ public class PostagemController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Postagem> postPostagem(@RequestBody Postagem postagem) { //Método para atualizar uma postagem, requestbody recepciona os objetos/valores enviado para a aplicação.
+	public ResponseEntity<Postagem> postPostagem(@RequestBody Postagem postagem) { //Método para inserir uma postagem, requestbody recepciona os objetos/valores enviado para a aplicação.
 		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 	}
 	
